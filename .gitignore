@@ -1,0 +1,23 @@
+# --- Build artifacts ---
+*.o
+*.elf
+*.out
+a.out
+a.in   # decompressed input generated during tests
+
+# --- Editor / project files ---
+.vscode/
+*.swp
+*.swo
+
+# --- OS-specific junk ---
+.DS_Store
+Thumbs.db
+
+# --- Logs ---
+*.log
+
+# --- Executables ---
+*.exe
+sim
+main
