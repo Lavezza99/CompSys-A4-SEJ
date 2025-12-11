@@ -9,7 +9,7 @@ struct memory
 
 struct memory *memory_create()
 {
-  return calloc(sizeof(struct memory), 1);
+  return calloc(1, sizeof(struct memory));
 }
 
 void memory_delete(struct memory *mem)
