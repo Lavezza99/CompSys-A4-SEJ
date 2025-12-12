@@ -8,11 +8,13 @@
 #define NOT_TAKEN 0
 
 // Generic predictor interface -------------------------------
-// All predictors must implement these two functions.
+// All predictors must implement these functions.
 
 struct Predictor {
-    int  (*predict)(struct Predictor* self, uint32_t pc);
-    void (*update)(struct Predictor* self, uint32_t pc, int taken);
+    // instr_pc : address of the branch instruction
+    // target_pc: computed branch target (instr_pc + imm for B-type)
+    int  (*predict)(struct Predictor* self, uint32_t instr_pc, uint32_t target_pc);
+    void (*update)(struct Predictor* self, uint32_t instr_pc, uint32_t target_pc, int taken);
     void (*destroy)(struct Predictor* self);
 
     // Predictor-specific internal state lives here:

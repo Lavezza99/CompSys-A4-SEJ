@@ -164,10 +164,14 @@ struct Stat simulate(struct memory *mem, int start_addr,
                 int32_t imm = imm_b(inst);
                 int actual_taken = 0;
 
+                // compute instruction address and target
+                uint32_t instr_pc = addr;           // address of branch instruction
+                uint32_t target_pc = (uint32_t)(addr + imm);
+
                 // --- PREDICTOR: predict before executing ---
                 int predicted_taken = 0;
                 if (predictor) {
-                    predicted_taken = predictor->predict(predictor, pc);
+                    predicted_taken = predictor->predict(predictor, instr_pc, target_pc);
                     stats->total_branches++;
                 }
 
@@ -189,12 +193,12 @@ struct Stat simulate(struct memory *mem, int start_addr,
                     if (predicted_taken != actual_taken)
                         stats->mispredictions++;
 
-                    predictor->update(predictor, pc, actual_taken);
+                    predictor->update(predictor, instr_pc, target_pc, actual_taken);
                 }  
 
                 // --- Execute branch normally ---
                 if (actual_taken)
-                    pc = addr + imm;
+                    pc = (uint32_t)(addr + imm);
 
                 break;
             }
